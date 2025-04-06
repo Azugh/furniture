@@ -40,7 +40,7 @@ public class Food {
   private Restaurant restaurant;
 
   @ManyToMany
-  private List<IngredientItem> ingredients = new ArrayList<>();
+  private List<IngredientsItem> ingredients = new ArrayList<>();
 
   @Temporal(TemporalType.TIMESTAMP)
   private Date creationDate;

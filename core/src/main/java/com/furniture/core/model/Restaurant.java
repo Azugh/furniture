@@ -34,14 +34,14 @@ public class Restaurant {
   private Long id;
 
   @OneToOne
-  private User user;
+  private User owner;
 
   @ManyToOne
   @JoinColumn(name = "address_id")
   private Address address;
 
   @Embedded
-  private ContactInforamation contactInforamation;
+  private ContactInforamation contactInformation;
 
   @JsonIgnore
   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)

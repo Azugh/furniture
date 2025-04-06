@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.furniture.api.service.FoodService;
-import com.furniture.api.service.IngredientsService;
+import com.furniture.api.service.IngredientService;
 import com.furniture.core.exception.FoodException;
 import com.furniture.core.exception.RestaurantException;
 import com.furniture.core.model.Category;
@@ -28,11 +28,11 @@ public class FoodServiceImplementation implements FoodService {
   // @Autowired
   // private RestaurantRepository restaurantRepository;
 
-  private final IngredientsService ingredientService;
+  private final IngredientService ingredientService;
 
   private final IngredientsCategoryRepository ingredientCategoryRepository;
 
-  FoodServiceImplementation(IngredientsService ingredientsService,
+  FoodServiceImplementation(IngredientService ingredientsService,
       IngredientsCategoryRepository ingredientsCategoryRepository, FoodRepository foodRepository) {
     this.ingredientService = ingredientsService;
     this.ingredientCategoryRepository = ingredientsCategoryRepository;

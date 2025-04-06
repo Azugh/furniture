@@ -5,15 +5,18 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.furniture.core.domain.UserRole;
+import com.furniture.core.model.Order; // Убедитесь, что импортированы все необходимые классы
+import com.furniture.core.model.RestaurantDto;
+import com.furniture.core.model.Address;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +25,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "users")
 public class User {
 
   @Id
@@ -30,7 +34,7 @@ public class User {
 
   @JsonIgnore
   @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-  private List<Order> orders;
+  private List<Order> orders = new ArrayList<>();
 
   @ElementCollection
   private List<RestaurantDto> favorites = new ArrayList<>();

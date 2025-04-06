@@ -25,7 +25,7 @@ public class NotificationServiceImplementation implements NotificationService {
   public Notification sendOrderStatusNotification(Order order) {
     Notification notification = new Notification();
     notification.setMessage("your order is " + order.getOrderStatus() + " order id is - " + order.getId());
-    notification.setUser(order.getCustomer());
+    notification.setCustomer(order.getCustomer());
     notification.setSentAt(new Date());
 
     return notificationRepository.save(notification);

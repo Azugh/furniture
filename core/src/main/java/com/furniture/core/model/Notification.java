@@ -22,7 +22,7 @@ public class Notification {
 
   @ManyToOne
   @JoinColumn(name = "recipient_id")
-  private User user;
+  private User customer;
 
   @ManyToOne
   private Restaurant restaurant;

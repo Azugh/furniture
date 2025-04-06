@@ -3,7 +3,7 @@ package com.furniture.core.request;
 import java.util.List;
 import java.util.Locale.Category;
 
-import com.furniture.core.model.IngredientItem;
+import com.furniture.core.model.IngredientsItem;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,5 +22,5 @@ public class CreateFoodRequest {
   private Long restaurantId;
   private boolean vegetarian;
   private boolean seasonal;
-  private List<IngredientItem> ingredients;
+  private List<IngredientsItem> ingredients;
 }

@@ -17,6 +17,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+
 @Configuration
 @EnableWebSecurity
 public class AppConfig {
@@ -26,9 +27,10 @@ public class AppConfig {
 
     http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(Authorize -> Authorize
-            .requestMatchers("/api/admin/**").hasAnyRole("ADMIN", "OWNER")
-            .requestMatchers("/api/**").authenticated()
-            .anyRequest().permitAll())
+                .requestMatchers("/api/admin/**").hasAnyRole("ADMIN", "OWNER")
+                .requestMatchers("/api/**").authenticated()
+                .requestMatchers("/auth/**").permitAll()
+                .anyRequest().permitAll())
         .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
         .csrf(csrf -> csrf.disable())
         .cors(cors -> cors.configurationSource(corsConfigurationSource()));

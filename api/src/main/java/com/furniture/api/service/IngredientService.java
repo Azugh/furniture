@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.furniture.core.exception.RestaurantException;
 import com.furniture.core.model.IngredientCategory;
-import com.furniture.core.model.IngredientItem;
+import com.furniture.core.model.IngredientsItem;
 
 public interface IngredientService {
 
@@ -15,12 +15,12 @@ public interface IngredientService {
 
   public List<IngredientCategory> findIngredientsCategoryByRestaurantId(Long id) throws Exception;
 
-  public List<IngredientItem> findRestaurantsIngredients(
+  public List<IngredientsItem> findRestaurantsIngredients(
       Long restaurantId);
 
-  public IngredientItem createIngredientsItem(Long restaurantId,
-      String ingredientName, Long ingredientCategoryId) throws Exception;
+  public IngredientsItem createIngredientsItem(Long restaurantId,
+                                               String ingredientName, Long ingredientCategoryId) throws Exception;
 
-  public IngredientItem updateStoke(Long id) throws Exception;
+  public IngredientsItem updateStoke(Long id) throws Exception;
 
 }

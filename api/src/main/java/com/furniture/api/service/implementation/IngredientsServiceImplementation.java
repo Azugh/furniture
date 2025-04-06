@@ -5,26 +5,26 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.furniture.api.service.IngredientsService;
+import com.furniture.api.service.IngredientService;
 import com.furniture.api.service.RestaurantService;
 import com.furniture.core.exception.RestaurantException;
 import com.furniture.core.model.IngredientCategory;
-import com.furniture.core.model.IngredientItem;
+import com.furniture.core.model.IngredientsItem;
 import com.furniture.core.model.Restaurant;
+import com.furniture.core.repository.IngredientItemRepository;
 import com.furniture.core.repository.IngredientsCategoryRepository;
-import com.furniture.core.repository.IngredientsItemRepository;
 
 @Service
-public class IngredientsServiceImplementation implements IngredientsService {
+public class IngredientsServiceImplementation implements IngredientService {
 
   private final IngredientsCategoryRepository ingredientsCategoryRepo;
-  private final IngredientsItemRepository ingredientsItemRepository;
+  private final IngredientItemRepository ingredientItemRepository;
   private final RestaurantService restaurantService;
 
   IngredientsServiceImplementation(IngredientsCategoryRepository ingredientsCategoryRepo,
-      IngredientsItemRepository ingredientsItemRepository, RestaurantService restaurantService) {
+      IngredientItemRepository ingredientsItemRepository, RestaurantService restaurantService) {
     this.ingredientsCategoryRepo = ingredientsCategoryRepo;
-    this.ingredientsItemRepository = ingredientsItemRepository;
+    this.ingredientItemRepository = ingredientsItemRepository;
     this.restaurantService = restaurantService;
   }
 
@@ -65,18 +65,18 @@ public class IngredientsServiceImplementation implements IngredientsService {
   }
 
   @Override
-  public List<IngredientItem> findRestaurantsIngredients(Long restaurantId) {
+  public List<IngredientsItem> findRestaurantsIngredients(Long restaurantId) {
 
-    return ingredientsItemRepository.findByRestaurantId(restaurantId);
+    return ingredientItemRepository.findByRestaurantId(restaurantId);
   }
 
   @Override
-  public IngredientItem createIngredientsItem(Long restaurantId,
-      String ingredientName, Long ingredientCategoryId) throws Exception {
+  public IngredientsItem createIngredientsItem(Long restaurantId,
+                                               String ingredientName, Long ingredientCategoryId) throws Exception {
 
     IngredientCategory category = findIngredientsCategoryById(ingredientCategoryId);
 
-    IngredientItem isExist = ingredientsItemRepository.findByRestaurantIdAndNameIngoreCase(restaurantId,
+    IngredientsItem isExist = ingredientItemRepository.findByRestaurantIdAndNameIgnoreCase(restaurantId,
         ingredientName, category.getName());
     if (isExist != null) {
       System.out.println("is exists-------- item");
@@ -85,26 +85,26 @@ public class IngredientsServiceImplementation implements IngredientsService {
 
     Restaurant restaurant = restaurantService.findRestaurantById(
         restaurantId);
-    IngredientItem item = new IngredientItem();
+    IngredientsItem item = new IngredientsItem();
     item.setName(ingredientName);
     item.setRestaurant(restaurant);
     item.setCategory(category);
 
-    IngredientItem savedIngredients = ingredientsItemRepository.save(item);
+    IngredientsItem savedIngredients = ingredientItemRepository.save(item);
     category.getIngredients().add(savedIngredients);
 
     return savedIngredients;
   }
 
   @Override
-  public IngredientItem updateStoke(Long id) throws Exception {
-    Optional<IngredientItem> item = ingredientsItemRepository.findById(id);
+  public IngredientsItem updateStoke(Long id) throws Exception {
+    Optional<IngredientsItem> item = ingredientItemRepository.findById(id);
     if (item.isEmpty()) {
       throw new Exception("ingredient not found with id " + item);
     }
-    IngredientItem ingredient = item.get();
+    IngredientsItem ingredient = item.get();
     ingredient.setInStoke(!ingredient.isInStoke());
-    return ingredientsItemRepository.save(ingredient);
+    return ingredientItemRepository.save(ingredient);
   }
 
 }

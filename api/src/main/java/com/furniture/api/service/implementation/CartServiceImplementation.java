@@ -185,7 +185,7 @@ public class CartServiceImplementation implements CartService {
   @Override
   public Cart findCartByUserId(Long userId) throws CartException, UserException {
 
-    Optional<Cart> opt = cartRepository.findByCustomerId(userId);
+    Optional<Cart> opt = cartRepository.findByCustomer_Id(userId);
 
     if (opt.isPresent()) {
       return opt.get();

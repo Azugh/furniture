@@ -6,17 +6,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.furniture.core.model.IngredientItem;
+import com.furniture.core.model.IngredientsItem;
 
-public interface IngredientsItemRepository extends JpaRepository<IngredientItem, Long> {
+public interface IngredientItemRepository extends JpaRepository<IngredientsItem, Long> {
 
-  List<IngredientItem> findByRestaurantId(Long id);
+  List<IngredientsItem> findByRestaurantId(Long id);
 
   @Query("SELECT e FROM IngredientsItem e "
       + "WHERE e.restaurant.id = :restaurantId "
       + "AND lower(e.name) = lower(:name)"
       + "AND e.category.name = :categoryName")
-  public IngredientItem findByRestaurantIdAndNameIngoreCase(
+  public IngredientsItem findByRestaurantIdAndNameIgnoreCase(
       @Param("restaurantId") Long restaurantId,
       @Param("name") String name,
       @Param("categoryName") String categoryName);

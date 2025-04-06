@@ -10,7 +10,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -33,7 +32,7 @@ public class IngredientCategory {
 
   @JsonIgnore
   @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-  private List<IngredientItem> ingredients = new ArrayList<>();
+  private List<IngredientsItem> ingredients = new ArrayList<>();
 
   private String name;
 
