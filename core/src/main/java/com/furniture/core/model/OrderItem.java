@@ -1,33 +1,42 @@
 package com.furniture.core.model;
 
-import java.util.List;
-
-import jakarta.annotation.sql.DataSourceDefinitions;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "order_items")
 public class OrderItem {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  // TODO FOOD
-  @ManyToOne
-  private Food food;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "order_id", nullable = false)
+  private Order order;
 
-  private int quantity;
-  private Long totalPrice;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "furniture_id", nullable = false)
+  private Furniture furniture;
 
-  private List<String> ingredients;
+  @Column(nullable = false)
+  private Integer quantity;
+
+  @Column(nullable = false)
+  private Double price;
 }

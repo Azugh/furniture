@@ -1,47 +1,67 @@
 package com.furniture.core.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.furniture.core.enums.OrderStatus;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
-@Table(name = "orders")
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "orders")
 public class Order {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
-  private User customer;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = false)
+  private User user;
 
-  @JsonIgnore
-  @ManyToOne
-  private Restaurant restaurant;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date createdAt;
-
-  @ManyToOne
-  private Address deliveryAddress;
-
-  @OneToMany
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<OrderItem> items;
 
-  @OneToOne
-  private Payment payment;
+  @Column(nullable = false)
+  private Double totalPrice;
 
-  private Long totalAmount;
-  private String orderStatus;
-  private int totalItem;
-  private int totalPrice;
+  @Embedded
+  private ShippingAddress shippingAddress;
+
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private OrderStatus status;
+
+  @Column(nullable = false)
+  private LocalDateTime createdAt;
+
+  @Column
+  private LocalDateTime updatedAt;
+
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+  private List<OrderHistory> history;
+
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+  private List<Notification> notifications;
 }

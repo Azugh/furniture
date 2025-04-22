@@ -1,43 +1,34 @@
 package com.furniture.core.model;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "cart_items")
 public class CartItem {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
-  @JsonIgnore
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "cart_id", nullable = false)
   private Cart cart;
 
-  // TODO Сделать furniture
-  @ManyToOne
-  private Food food;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "furniture_id", nullable = false)
+  private Furniture furniture;
 
-  private int quantity;
-  // TODO удалить ingredients
-  @ElementCollection
-  private List<String> ingredients;
+  @Column(nullable = false)
+  private Integer quantity;
 
-  private Long totalPrice;
-
+  @Column(nullable = false)
+  private Double price;
 }
